@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Scrapper | {{args}}</title>
+    <style>
+        body{
+            margin: 0;
+            background-color:#393e46;
+            color:#eeeeee
+        }
+        main{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        header{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            background-color:#222831;
+        }
+        .cell{
+            width: 1000px;
+            display:flex;
+            flex-direction: row;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            margin-bottom: 25px;
+            background-color:#222831;
+            align-items: center;
+            justify-content: space-between;
+            
+        }
+        .info{
+            margin-left: 20px;
+        }
+        a{
+            text-decoration: none;
+            color:white;
+        }
+        button.apply{
+            border: 0;
+            width: 100px;
+            cursor:pointer;
+            background-color:#32e0c4;
+            margin-right: 20px;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+        a.btn{
+            color:#393e46;
+        }
+        h2{
+            margin-top:25;
+            margin-bottom:25;
+        }
+        .export{
+            display:flex;
+            align-items: center;
+        }
+        .export_btn{
+            margin-left: 20px;
+            height: 30px;
+            border-radius: 5px;
+            border: 0;
+            background-color:#32e0c4;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            <a href="/">Job Scrapper</a>
+        </h1>
+    </header>
+    <main>
+        <div>
+            <div class="export">
+                <h2>
+                    stackoverflow • {{stack|length}} Results
+                </h2>
+                <a href="/export/stackoverflow?job={{args.replace('#','%23').replace('+','%2B').replace('/','%2F')}}" target="_blank">
+                    <button class="export_btn">
+                        <strong>
+                            Export stackoverflow jobs 
+                        </strong>
+                    </button>
+                </a>
+            </div>
+           
+        
+            {% if stack|length < 1 %}
+                <div>
+                    <h3>
+                        No Results 
+                    </h3>
+                </div>
+            {% else %}
+                {% for a in stack %}
+                    <div class="cell">
+                        <div class="info">
+                            <h3>
+                                
+                                {{a.title}}
+                            
+                            </h3>
+                            <h4>
+                                {{a.company}}
+                            </h4>
+                   
+                        </div>
+                        <div class="apply_btn">
+                            <a class="btn" href='https://stackoverflow.com/{{a.link}}' target="_blank">
+                                <button class="apply"><h3>Apply</h3></button>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <hr />
+        <div>
+            <div class="export">
+                <h2>
+                    WeWorkRemotely • {{wework|length}} Results
+                </h2>
+                <a href="/export/weworkremotely?job={{args.replace('#','%23').replace('+','%2B').replace('/','%2F')}}" target="_blank">
+                    <button class="export_btn">
+                        <strong>
+                            Export WeWorkRemotely jobs 
+                        </strong>
+                    </button>
+                </a>
+            </div>
+            {% if wework|length < 1 %}
+                <h3>
+                    No Results
+                </h3>
+            {% else %}
+                {% for a in wework %}
+                    <div class="cell">
+                        <div class="info">
+                            <h3>
+                                {{a.title}}
+                            </h3>
+                            <h4>
+                                {{a.company}}
+                            </h4>
+                        </div>
+                        <div class="apply_btn">
+                            <a class="btn" href='https://weworkremotely.com/{{a.link}}' target="_blank">
+                                <button class="apply"><h3>Apply</h3></button>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <hr />
+        <div>
+            <div class="export">
+                <h2>
+                    RemoteOk • {{remoteok|length}} Results
+                </h2>
+                <a href="/export/remoteok?job={{args.replace('#','%23').replace('+','%2B').replace('/','%2F')}}" target="_blank">
+                    <button class="export_btn">
+                        <strong>
+                            Export RemoteOk jobs 
+                        </strong>
+                    </button>
+                </a>
+            </div>
+           {% if remoteok|length < 1 %}
+                <h3>
+                    No Results
+                </h3>
+            {% else %}
+                {% for a in remoteok %}
+                    <div class="cell">
+                        <div class="info">
+                            <h3>
+                                {{a.title}}
+                            </h3>
+                            <h4>
+                                {{a.company}}
+                            </h4>
+                        </div>
+                        <div class="apply_btn">
+                            <a class="btn" href='https://remoteok.io/{{a.link}}' target="_blank">
+                                <button class="apply"><h3>Apply</h3></button>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>

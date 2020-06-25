@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Scrapper</title>
+    <style>
+        .subtitle{
+            font-weight: 400;
+        }
+        body{
+            margin:0;
+            background-color:#393e46;
+            color:white;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+            font-weight: 400
+        }
+        tbody{
+            color: rgba(255,255,255,0.7);
+            font-weight: 600
+        }
+
+        a.base{
+            color: rgba(255,255,255,0.5)
+        }
+
+        header.head {
+            background-image: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3450&q=80');
+            background-position:center;
+            background-size:cover;
+            height: 400px;
+            display:flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items:center;
+            color:white;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+        h1.title{
+            text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            margin: 0
+        }
+        h2.subtitle{
+            text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+        main {
+            display:flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items:center;
+        }
+        input {
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            height: 30px;
+            width: 250px;
+            padding-left:20px;
+            border: 0px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+        h3{
+            margin:0;
+            margin-top:20px
+        }
+        hr{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 400px;
+            border: 1px solid #32e0c4;
+        }
+    </style>
+</head>
+<body>
+    <header class="head">
+
+        <h1 class="title">
+            Job Scrapper
+        </h1>
+        <h2 class="subtitle">
+            Find your job.
+        </h2>
+        <form action="/search" method="GET">
+            <input name="job" placeholder="Insert language"/>
+        </form>
+
+    </header>
+    <main class="main">
+        <h3>Top 20 Programming Language in 2020</h3>
+        <hr />
+        <table>
+            <tbody>
+                {% for a in rank %}
+                    <tr>
+                        <td>
+                            {{a['rank']}}
+                        </td>
+                        <td>
+                           <a href="/search?job={{a['lang'].replace('#','%23').replace('+','%2B').replace('/','%2F')}}">{{a['lang']}}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Based on <a class="base" href="https://www.tiobe.com/tiobe-index/">TIODE</a></p>
+    </main>
+</body>
+</html>
