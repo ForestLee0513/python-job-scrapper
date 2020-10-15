@@ -7,31 +7,21 @@ wework_jobs = []
 remoteok_jobs = []
 
 def get_stack(word):
-    stack_jobs=[]
-    stack = f"https://stackoverflow.com/jobs?q={word.replace('+','%2B').replace('#','%23').replace('/','%2F')}"
-    stack_req = requests.get(stack)
-    stack_soup = BeautifulSoup(stack_req.text, 'html.parser')
-    stack_grid = stack_soup.find('div', {"class": "listResults"}).find_all('div',{'class':'grid'})
-    if(stack_soup.find('div',{'class':'s-empty-state'})):
-        pass
+  stack_jobs=[]
+  stack = f"https://stackoverflow.com/jobs?q={word.replace('+','%2B').replace('#','%23').replace('/','%2F')}"
+  stack_req = requests.get(stack)
+  stack_soup = BeautifulSoup(stack_req.text, 'html.parser')
+  stack_grid = stack_soup.find('div', {"class": "listResults"}).find_all('div',{'class':'grid'})
+
+  for grid in stack_grid:
+    if(grid.find('div', {'class':'grid--cell fl1'}) == None):
+      pass
     else:
-        for grid in stack_grid:
-            if(grid.find('div', {'class':'grid--cell'}) == None):
-                pass
-            else:
-                #h2
-                if(grid.find('div', {'class':'grid--cell'}).find('h2') == None):
-                    pass
-                else:
-                    if(grid.find('div', {'class':'grid--cell'}).find('h2').find('a') == None):
-                        pass
-                    else:
-                        title = grid.find('div', {'class':'grid--cell'}).find('h2').find('a')['title'].strip()
-                        link = grid.find('div', {'class':'grid--cell'}).find('h2').find('a')['href'].strip()
-                        company = grid.find('div', {'class':'grid--cell'}).find('h3', {'class':'fc-black-700'}).find('span').text.strip()
-#                        location = grid.find('div', {'class':'grid--cell'}).find('h3', {'class':'fc-black-700'}).find('span', {'class': 'fc-black-500'}).text.strip()
-                        stack_jobs.append({'title': title, 'company': company, 'link': link })
-    return stack_jobs
+      title = grid.find('div', {'class':'grid--cell fl1'}).find('h2').find('a')['title'].strip()
+      link = grid.find('div', {'class':'grid--cell fl1'}).find('h2').find('a')['href'].strip()
+      company = grid.find('div', {'class':'grid--cell fl1'}).find('h3', {'class':'fc-black-700'}).find('span').text.strip()
+      stack_jobs.append({'title': title, 'company': company, 'link': link })
+  return stack_jobs
 
 def get_wework(word):
     wework_jobs=[]
@@ -62,7 +52,7 @@ def get_wework(word):
 def get_remoteok(word):
     remoteok_jobs=[]
     remoteok = f"https://remoteok.io/remote-{word.replace('++','-plus-plus').replace('#','-sharp')}-jobs".lower()
-    remoteok_req = requests.get(remoteok)
+    remoteok_req = requests.get(remoteok, headers = {'User-agent': 'Super Bot Power Level Over 9000'})
     remoteok_soup = BeautifulSoup(remoteok_req.text, 'html.parser')
     if remoteok_soup.find('div', {'class':'container'}) == None:
         pass
