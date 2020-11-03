@@ -11,7 +11,10 @@ def get_stack(word):
   stack = f"https://stackoverflow.com/jobs?q={word.replace('+','%2B').replace('#','%23').replace('/','%2F')}"
   stack_req = requests.get(stack)
   stack_soup = BeautifulSoup(stack_req.text, 'html.parser')
-  stack_grid = stack_soup.find('div', {"class": "listResults"}).find_all('div',{'class':'grid'})
+  if stack_soup.find('div', {"class": "listResults"}).find_all('div',{'class':'grid'}) == None:
+    pass
+  else:
+    stack_grid = stack_soup.find('div', {"class": "listResults"}).find_all('div',{'class':'grid'})
 
   for grid in stack_grid:
     if(grid.find('div', {'class':'grid--cell fl1'}) == None):
@@ -65,9 +68,19 @@ def get_remoteok(word):
                 if cell.find('td', {'class': 'company'}) == None:
                     pass
                 else:
+                  if cell.find('td', {'class': 'company'}).find('a',{'itemprop':'hiringOrganization'}).find('h3',{'itemprop': 'name'}) == None:
+                    pass
+                  else:
                     company = cell.find('td', {'class': 'company'}).find('a',{'itemprop':'hiringOrganization'}).find('h3',{'itemprop': 'name'}).text
-                    title = cell.find('td', {'class': 'company'}).find('h2',{'itemprop':'title'}).text
-                    link  = cell.find('td', {'class': 'company'}).find('a', {'itemprop':'url'})['href']
-                    remoteok_jobs.append({'title':title,'company':company,'link':link})
+                    if cell.find('td', {'class': 'company'}).find('h2',{'itemprop':'title'}) == None:
+                      pass
+                    else:
+                      title = cell.find('td', {'class': 'company'}).find('h2',{'itemprop':'title'}).text
+                      if cell.find('td', {'class': 'company'}).find('a', {'itemprop':'url'}) == None:
+                        pass
+                      else:
+                        link  = cell.find('td', {'class': 'company'}).find('a', {'itemprop':'url'})['href']
+
+                        remoteok_jobs.append({'title':title,'company':company,'link':link})
 
     return remoteok_jobs
